@@ -19,11 +19,11 @@ type ApiGame struct {
 	Name              string `json:"name"`
 	Description       string `json:"summary"`
 	Cover             Image  `json:"cover"`
-	CoverURL          string
+	CoverURL          string `json:"cover_url"`
 	Artworks          []Image `json:"artworks"`
-	ArtworkUrlList    []string
+	ArtworkUrlList    []string `json:"artwork_url_list"`
 	Screenshots       []Image `json:"screenshots"`
-	ScreenshotUrlList []string
+	ScreenshotUrlList []string `json:"screenshot_url_list"`
 }
 
 type APIManager struct {
@@ -91,20 +91,17 @@ func (a *APIManager) GetGameData(id int) (ApiGame, error) {
 	imageID := firstGameData.Cover.ImageID
 	imageURL := fmt.Sprintf("https://images.igdb.com/igdb/image/upload/t_cover_big/%s.jpg", imageID)
 	firstGameData.CoverURL = imageURL
-	fmt.Println("added cover " + imageURL)
 
 	for _, image := range firstGameData.Artworks {
 		imageID := image.ImageID
 		imageURL := fmt.Sprintf("https://images.igdb.com/igdb/image/upload/t_1080p/%s.jpg", imageID)
 		firstGameData.ArtworkUrlList = append(firstGameData.ArtworkUrlList, imageURL)
-		fmt.Println("added artwork " + imageURL)
 	}
 
 	for _, image := range firstGameData.Screenshots {
 		imageID := image.ImageID
 		imageURL := fmt.Sprintf("https://images.igdb.com/igdb/image/upload/t_1080p/%s.jpg", imageID)
 		firstGameData.ScreenshotUrlList = append(firstGameData.ScreenshotUrlList, imageURL)
-		fmt.Println("added screenshot " + imageURL)
 	}
 
 	return firstGameData, nil

@@ -19,13 +19,13 @@ Example JSON:
   "cover": {
     "image_id": "co1p3u"
   },
-  "CoverURL": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1p3u.jpg",
+  "cover_url": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1p3u.jpg",
   "artworks": [
     {
       "image_id": "arbi7"
     }
   ],
-  "ArtworkUrlList": [
+  "artwork_url_list": [
     "https://images.igdb.com/igdb/image/upload/t_1080p/arbi7.jpg"
   ],
   "screenshots": [
@@ -57,7 +57,7 @@ Example JSON:
       "image_id": "sco4sk"
     }
   ],
-  "ScreenshotUrlList": [
+  "screenshot_url_list": [
     "https://images.igdb.com/igdb/image/upload/t_1080p/bl5wghaei66cmhcdwpd7.jpg",
     "https://images.igdb.com/igdb/image/upload/t_1080p/sco4sf.jpg",
     "https://images.igdb.com/igdb/image/upload/t_1080p/sco4sd.jpg",
