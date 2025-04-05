@@ -32,8 +32,8 @@ type APIManager struct {
 }
 
 func (a *APIManager) SetupHeader(request *http.Request) {
-	request.Header.Set("Client-ID", a.settings.IgdbSettings.IgdbClient)
-	request.Header.Set("Authorization", fmt.Sprintf("Bearer %s", a.settings.IgdbSettings.IgdbAuth))
+	request.Header.Set("Client-ID", a.settings.IgdbClient)
+	request.Header.Set("Authorization", fmt.Sprintf("Bearer %s", a.settings.IgdbAuth))
 }
 
 func NewAPI(settings *jsonModels.Settings, settingsManager *jsonUtils.JsonManager) (*APIManager, error) {
@@ -43,7 +43,7 @@ func NewAPI(settings *jsonModels.Settings, settingsManager *jsonUtils.JsonManage
 	}
 
 	// Generate new auth token if needed
-	if time.Now().After(settings.IgdbSettings.ExpiresAt) {
+	if time.Now().After(settings.ExpiresAt) {
 		fmt.Println("Generating new auth token because the old one has expired")
 		_, err := apiManager.GetAndSetNewAuthToken()
 		if err != nil {
