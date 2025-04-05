@@ -26,7 +26,10 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	router.GET("/getGame/:igdbid", returnGameData(apiManager))
+
+	router.GET("/getgame/id/:igdbid", ReturnJsonGameDataByID(apiManager))
+	router.GET("/getgame/name/:name", ReturnJsonGameDataListByName(apiManager))
+
 	err = router.Run(":3030")
 	if err != nil {
 		fmt.Println(err)
@@ -34,12 +37,24 @@ func main() {
 	}
 }
 
-func returnGameData(apiManager *igdb.APIManager) gin.HandlerFunc {
+func ReturnJsonGameDataListByName(apiManager *igdb.APIManager) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		name := ctx.Param("name")
+		gameDataList, err := apiManager.GetGames(name)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		ctx.JSON(http.StatusOK, gameDataList)
+	}
+}
+func ReturnJsonGameDataByID(apiManager *igdb.APIManager) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		idString := ctx.Param("igdbid")
 		id, _ := strconv.Atoi(idString)
 		gameData, err := apiManager.GetGameData(id)
 		if err != nil {
+			fmt.Println(err)
 			return
 		}
 		ctx.JSON(http.StatusOK, gameData)

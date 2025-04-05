@@ -87,7 +87,6 @@ func (a *APIManager) GetGameData(id int) (ApiGame, error) {
 	}
 
 	firstGameData := gameDataList[0]
-	fmt.Println(firstGameData.Name+" :", firstGameData.Id)
 	imageID := firstGameData.Cover.ImageID
 	imageURL := fmt.Sprintf("https://images.igdb.com/igdb/image/upload/t_cover_big/%s.jpg", imageID)
 	firstGameData.CoverURL = imageURL
@@ -107,26 +106,46 @@ func (a *APIManager) GetGameData(id int) (ApiGame, error) {
 	return firstGameData, nil
 }
 
-func (a *APIManager) GetGames(query string) []ApiGame {
-	header := fmt.Sprintf(`fields id, name, summary, cover; search "%s";`, query)
+func (a *APIManager) GetGames(query string) ([]ApiGame, error)  {
+	header := fmt.Sprintf(`fields id, name, summary, cover.*, artworks.*, screenshots.*; search "%s";`, query)
 
 	request, err := http.NewRequest("POST", "https://api.igdb.com/v4/games/", bytes.NewBuffer([]byte(header)))
 	if err != nil {
-		return []ApiGame{}
+		return []ApiGame{}, err
 	}
 
 	a.SetupHeader(request)
 
 	response, err := a.client.Do(request)
 	if err != nil {
-		return []ApiGame{}
+		return []ApiGame{}, err
 	}
 	defer response.Body.Close()
 
 	var games []ApiGame
-	jsonErr := json.NewDecoder(response.Body).Decode(&games)
-	if jsonErr != nil {
-		return []ApiGame{}
+	err = json.NewDecoder(response.Body).Decode(&games)
+	if err != nil {
+		return []ApiGame{}, err
 	}
-	return games
+
+	for i, game := range games {
+		imageID := game.Cover.ImageID
+		imageURL := fmt.Sprintf("https://images.igdb.com/igdb/image/upload/t_cover_big/%s.jpg", imageID)
+		games[i].CoverURL = imageURL
+
+		for _, image := range game.Artworks {
+			imageID := image.ImageID
+			imageURL := fmt.Sprintf("https://images.igdb.com/igdb/image/upload/t_1080p/%s.jpg", imageID)
+			games[i].ArtworkUrlList = append(game.ArtworkUrlList, imageURL)
+		}
+
+		for _, image := range game.Screenshots {
+			imageID := image.ImageID
+			imageURL := fmt.Sprintf("https://images.igdb.com/igdb/image/upload/t_1080p/%s.jpg", imageID)
+			games[i].ScreenshotUrlList = append(game.ScreenshotUrlList, imageURL)
+		}
+
+	}
+
+	return games, nil
 }
