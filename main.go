@@ -21,6 +21,8 @@ func main() {
 		return
 	}
 
+	fmt.Println("test")
+
 	apiManager, err := igdb.NewAPI(settings, settingsManager)
 	if err != nil {
 		fmt.Println(err)
