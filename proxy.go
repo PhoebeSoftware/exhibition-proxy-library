@@ -1,10 +1,10 @@
-package proxy
+package exhibtion_proxy
 
 import (
-	"exhibtion-proxy/igdb"
-	"exhibtion-proxy/jsonUtils"
-	"exhibtion-proxy/jsonUtils/jsonModels"
 	"fmt"
+	"github.com/PhoebeSoftware/exhibition-proxy-library/igdb"
+	"github.com/PhoebeSoftware/exhibition-proxy-library/jsonUtils"
+	"github.com/PhoebeSoftware/exhibition-proxy-library/jsonUtils/jsonModels"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"path/filepath"
