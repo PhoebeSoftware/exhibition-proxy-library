@@ -1,4 +1,4 @@
-module https://github.com/PhoebeSoftware/exhibiton-proxy-library
+module github.com/PhoebeSoftware/exhibition-proxy-library
 
 go 1.24.1
 
