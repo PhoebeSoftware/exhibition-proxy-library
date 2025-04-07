@@ -3,9 +3,9 @@ package igdb
 import (
 	"bytes"
 	"encoding/json"
-	"exhibtion-proxy/jsonUtils"
-	"exhibtion-proxy/jsonUtils/jsonModels"
 	"fmt"
+	"github.com/PhoebeSoftware/exhibition-proxy-library/exhibition-proxy/jsonUtils"
+	"github.com/PhoebeSoftware/exhibition-proxy-library/exhibition-proxy/jsonUtils/jsonModels"
 	"net/http"
 	"time"
 )

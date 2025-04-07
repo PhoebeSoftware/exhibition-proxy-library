@@ -2,9 +2,9 @@ package exhibition_proxy
 
 import (
 	"fmt"
-	"github.com/PhoebeSoftware/exhibition-proxy-library/igdb"
-	"github.com/PhoebeSoftware/exhibition-proxy-library/jsonUtils"
-	"github.com/PhoebeSoftware/exhibition-proxy-library/jsonUtils/jsonModels"
+	"github.com/PhoebeSoftware/exhibition-proxy-library/exhibition-proxy/igdb"
+	"github.com/PhoebeSoftware/exhibition-proxy-library/exhibition-proxy/jsonUtils"
+	"github.com/PhoebeSoftware/exhibition-proxy-library/exhibition-proxy/jsonUtils/jsonModels"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"path/filepath"
