@@ -28,7 +28,7 @@ type ApiGame struct {
 
 type APIManager struct {
 	client   *http.Client
-	settings *jsonModels.Settings
+	settings *jsonModels.ProxySettings
 }
 
 func (a *APIManager) SetupHeader(request *http.Request) {
@@ -36,7 +36,7 @@ func (a *APIManager) SetupHeader(request *http.Request) {
 	request.Header.Set("Authorization", fmt.Sprintf("Bearer %s", a.settings.IgdbAuth))
 }
 
-func NewAPI(settings *jsonModels.Settings, settingsManager *jsonUtils.JsonManager) (*APIManager, error) {
+func NewAPI(settings *jsonModels.ProxySettings, settingsManager *jsonUtils.JsonManager) (*APIManager, error) {
 	apiManager := &APIManager{
 		client:   &http.Client{},
 		settings: settings,

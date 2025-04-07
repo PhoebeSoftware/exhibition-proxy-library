@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-type Settings struct {
+type ProxySettings struct {
 	IgdbClient string `json:"igdb_client"`
 	IgdbSecret string `json:"igdb_secret"`
 	IgdbAuth   string `json:"igdb_auth"`
@@ -16,11 +16,11 @@ type Settings struct {
 	ExpiresAt time.Time `json:"expires_at"`
 }
 
-func (s Settings) GetSettings() Settings {
+func (s ProxySettings) GetSettings() ProxySettings {
 	return s
 }
 
-func (s *Settings) DefaultValues() {
+func (s *ProxySettings) DefaultValues() {
 	s.IgdbClient = "fill-in-pls"
 	s.IgdbSecret = "fill-in-pls"
 	s.IgdbAuth = "auto-generated"

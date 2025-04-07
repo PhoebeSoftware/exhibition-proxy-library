@@ -1,4 +1,4 @@
-package main
+package proxy
 
 import (
 	"exhibtion-proxy/igdb"
@@ -11,10 +11,14 @@ import (
 	"strconv"
 )
 
-func main() {
+type Proxy struct {
+
+}
+
+func (p *Proxy) StartServer() {
 	router := gin.Default()
 
-	settings := &jsonModels.Settings{}
+	settings := &jsonModels.ProxySettings{}
 	settingsManager, err := jsonUtils.NewJsonManager(filepath.Join("settings.json"), settings)
 	if err != nil {
 		fmt.Println(err)
@@ -29,8 +33,8 @@ func main() {
 		return
 	}
 
-	router.GET("/game/id/:igdbid", ReturnJsonGameDataByID(apiManager))
-	router.GET("/game/name/:name", ReturnJsonGameDataListByName(apiManager))
+	router.GET("/game/id/:igdbid", returnJsonGameDataByID(apiManager))
+	router.GET("/game/name/:name", returnJsonGameDataListByName(apiManager))
 
 	err = router.Run(":3030")
 	if err != nil {
@@ -39,7 +43,7 @@ func main() {
 	}
 }
 
-func ReturnJsonGameDataListByName(apiManager *igdb.APIManager) gin.HandlerFunc {
+func returnJsonGameDataListByName(apiManager *igdb.APIManager) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		name := ctx.Param("name")
 		gameDataList, err := apiManager.GetGames(name)
@@ -50,7 +54,7 @@ func ReturnJsonGameDataListByName(apiManager *igdb.APIManager) gin.HandlerFunc {
 		ctx.JSON(http.StatusOK, gameDataList)
 	}
 }
-func ReturnJsonGameDataByID(apiManager *igdb.APIManager) gin.HandlerFunc {
+func returnJsonGameDataByID(apiManager *igdb.APIManager) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		idString := ctx.Param("igdbid")
 		id, err := strconv.Atoi(idString)
