@@ -12,6 +12,7 @@ import (
 )
 
 type Proxy struct {
+	SettingsPath string
 
 }
 
@@ -19,13 +20,11 @@ func (p *Proxy) StartServer() {
 	router := gin.Default()
 
 	settings := &jsonModels.ProxySettings{}
-	settingsManager, err := jsonUtils.NewJsonManager(filepath.Join("settings.json"), settings)
+	settingsManager, err := jsonUtils.NewJsonManager(filepath.Join(p.SettingsPath), settings)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-
-	fmt.Println("test")
 
 	apiManager, err := igdb.NewAPI(settings, settingsManager)
 	if err != nil {
