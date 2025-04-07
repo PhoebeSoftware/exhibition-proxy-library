@@ -1,4 +1,4 @@
-package proxy
+package exhibition_proxy
 
 import (
 	"fmt"
