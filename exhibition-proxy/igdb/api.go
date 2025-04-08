@@ -43,7 +43,7 @@ func NewAPI(settings *jsonModels.ProxySettings, settingsManager *jsonUtils.JsonM
 	}
 
 	// Generate new auth token if needed
-	if time.Now().After(settings.ExpiresAt) {
+	if time.Now().After(settings.ExpiresAt) || settings.IgdbAuth == "" {
 		fmt.Println("Generating new auth token because the old one has expired")
 		_, err := apiManager.GetAndSetNewAuthToken()
 		if err != nil {

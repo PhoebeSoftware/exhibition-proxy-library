@@ -13,10 +13,11 @@ import (
 
 type Proxy struct {
 	SettingsPath string
-
+	Port int
 }
 
 func (p *Proxy) StartServer() {
+	portInString := strconv.Itoa(p.Port)
 	router := gin.Default()
 
 	settings := &jsonModels.ProxySettings{}
@@ -35,7 +36,7 @@ func (p *Proxy) StartServer() {
 	router.GET("/game/id/:igdbid", returnJsonGameDataByID(apiManager))
 	router.GET("/game/name/:name", returnJsonGameDataListByName(apiManager))
 
-	err = router.Run(":3030")
+	err = router.Run(":" + portInString)
 	if err != nil {
 		fmt.Println(err)
 		return
