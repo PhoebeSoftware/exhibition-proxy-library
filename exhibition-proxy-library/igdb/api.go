@@ -14,6 +14,11 @@ type Image struct {
 	ImageID string `json:"image_id"`
 }
 
+type Genre struct {
+	GenreID int `json:"id"`
+	Name string `json:"name"`
+}
+
 type Metadata struct {
 	Id                int      `json:"id"`
 	Name              string   `json:"name"`
@@ -21,6 +26,7 @@ type Metadata struct {
 	Cover             Image    `json:"cover"`
 	Artworks          []Image  `json:"artworks"`
 	Screenshots       []Image  `json:"screenshots"`
+	Genres []Genre `json:"genres"`
 }
 
 type APIManager struct {
@@ -58,7 +64,7 @@ func NewAPI(settings *jsonModels.ProxySettings, settingsManager *jsonUtils.JsonM
 }
 
 func (a *APIManager) GetGameData(id int) (Metadata, error) {
-	header := fmt.Sprintf(`fields id, name, summary, cover.*, artworks.*, screenshots.*; where id = %d;`, id)
+	header := fmt.Sprintf(`fields id, name, summary, cover.*, artworks.*, screenshots.*, genres.*; where id = %d;`, id)
 
 	request, err := http.NewRequest("POST", "https://api.igdb.com/v4/games/", bytes.NewBuffer([]byte(header)))
 	if err != nil {
