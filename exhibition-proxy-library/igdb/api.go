@@ -109,24 +109,5 @@ func (a *APIManager) GetGames(query string) ([]Metadata, error) {
 		return []Metadata{}, err
 	}
 
-	for i, game := range games {
-		imageID := game.Cover.ImageID
-		imageURL := fmt.Sprintf("https://images.igdb.com/igdb/image/upload/t_cover_big/%s.jpg", imageID)
-		games[i].CoverURL = imageURL
-
-		for _, image := range game.Artworks {
-			imageID := image.ImageID
-			imageURL := fmt.Sprintf("https://images.igdb.com/igdb/image/upload/t_1080p/%s.jpg", imageID)
-			games[i].ArtworkUrlList = append(game.ArtworkUrlList, imageURL)
-		}
-
-		for _, image := range game.Screenshots {
-			imageID := image.ImageID
-			imageURL := fmt.Sprintf("https://images.igdb.com/igdb/image/upload/t_1080p/%s.jpg", imageID)
-			games[i].ScreenshotUrlList = append(game.ScreenshotUrlList, imageURL)
-		}
-
-	}
-
 	return games, nil
 }
