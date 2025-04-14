@@ -11,22 +11,25 @@ import (
 )
 
 type Image struct {
+	DBID uint `json:"-" gorm:"primaryKey"`
 	ImageID string `json:"image_id"`
 }
 
 type Genre struct {
-	GenreID int `json:"id"`
-	Name string `json:"name"`
+	GenreID int    `json:"id" gorm:"primaryKey"`
+	Name    string `json:"name"`
 }
 
 type Metadata struct {
-	Id                int      `json:"id"`
-	Name              string   `json:"name"`
-	Description       string   `json:"summary"`
-	Cover             Image    `json:"cover"`
-	Artworks          []Image  `json:"artworks"`
-	Screenshots       []Image  `json:"screenshots"`
-	Genres []Genre `json:"genres"`
+	Id          int     `json:"id"`
+	Name        string  `json:"name"`
+	Description string  `json:"summary"`
+	// Coverid is foreign key for local db
+	CoverID     uint    `json:"-"`
+	Cover       Image   `json:"cover" gorm:"foreignKey:CoverID"`
+	Artworks    []Image `json:"artworks" gorm:"many2many:metadata_artworks"`
+	Screenshots []Image `json:"screenshots" gorm:"many2many:metadata_screenshots"`
+	Genres      []Genre `json:"genres" gorm:"many2many:metadata_genres"`
 }
 
 type APIManager struct {
@@ -63,33 +66,33 @@ func NewAPI(settings *jsonModels.ProxySettings, settingsManager *jsonUtils.JsonM
 	return apiManager, nil
 }
 
-func (a *APIManager) GetGameData(id int) (Metadata, error) {
+func (a *APIManager) GetGameData(id int) (*Metadata, error) {
 	header := fmt.Sprintf(`fields id, name, summary, cover.*, artworks.*, screenshots.*, genres.*; where id = %d;`, id)
 
 	request, err := http.NewRequest("POST", "https://api.igdb.com/v4/games/", bytes.NewBuffer([]byte(header)))
 	if err != nil {
-		return Metadata{}, err
+		return &Metadata{}, err
 	}
 
 	a.SetupHeader(request)
 
 	response, err := a.client.Do(request)
 	if err != nil {
-		return Metadata{}, err
+		return &Metadata{}, err
 	}
 	defer response.Body.Close()
 
 	var gameDataList []Metadata
 	jsonErr := json.NewDecoder(response.Body).Decode(&gameDataList)
 	if jsonErr != nil {
-		return Metadata{}, err
+		return &Metadata{}, err
 	}
 
 	if len(gameDataList) == 0 {
-		return Metadata{}, fmt.Errorf("no games found with id %d", id)
+		return &Metadata{}, fmt.Errorf("no games found with id %d", id)
 	}
 
-	firstGameData := gameDataList[0]
+	firstGameData := &gameDataList[0]
 	return firstGameData, nil
 }
 
