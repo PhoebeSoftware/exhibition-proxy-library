@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"fmt"
-	"github.com/PhoebeSoftware/exhibition-proxy-library/exhibition-proxy/igdb"
-	"github.com/PhoebeSoftware/exhibition-proxy-library/exhibition-proxy/models"
+	"github.com/PhoebeSoftware/exhibition-proxy-library/exhibition-proxy-library/igdb"
+	"github.com/PhoebeSoftware/exhibition-proxy-library/exhibition-proxy-library/models"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"

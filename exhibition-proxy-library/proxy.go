@@ -1,11 +1,11 @@
-package exhibition_proxy
+package exhibition_proxy_library
 
 import (
 	"fmt"
-	"github.com/PhoebeSoftware/exhibition-proxy-library/exhibition-proxy/handlers"
-	"github.com/PhoebeSoftware/exhibition-proxy-library/exhibition-proxy/igdb"
-	"github.com/PhoebeSoftware/exhibition-proxy-library/exhibition-proxy/jsonUtils"
-	"github.com/PhoebeSoftware/exhibition-proxy-library/exhibition-proxy/jsonUtils/jsonModels"
+	"github.com/PhoebeSoftware/exhibition-proxy-library/exhibition-proxy-library/handlers"
+	"github.com/PhoebeSoftware/exhibition-proxy-library/exhibition-proxy-library/igdb"
+	"github.com/PhoebeSoftware/exhibition-proxy-library/exhibition-proxy-library/jsonUtils"
+	"github.com/PhoebeSoftware/exhibition-proxy-library/exhibition-proxy-library/jsonUtils/jsonModels"
 	"github.com/gin-gonic/gin"
 	"path/filepath"
 	"strconv"
