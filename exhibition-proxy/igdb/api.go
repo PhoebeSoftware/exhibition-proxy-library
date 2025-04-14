@@ -15,14 +15,14 @@ type Image struct {
 }
 
 type ApiGame struct {
-	Id                int    `json:"id"`
-	Name              string `json:"name"`
-	Description       string `json:"summary"`
-	Cover             Image  `json:"cover"`
-	CoverURL          string `json:"cover_url"`
-	Artworks          []Image `json:"artworks"`
+	Id                int      `json:"id"`
+	Name              string   `json:"name"`
+	Description       string   `json:"summary"`
+	Cover             Image    `json:"cover"`
+	CoverURL          string   `json:"cover_url"`
+	Artworks          []Image  `json:"artworks"`
 	ArtworkUrlList    []string `json:"artwork_url_list"`
-	Screenshots       []Image `json:"screenshots"`
+	Screenshots       []Image  `json:"screenshots"`
 	ScreenshotUrlList []string `json:"screenshot_url_list"`
 }
 
@@ -32,8 +32,8 @@ type APIManager struct {
 }
 
 func (a *APIManager) SetupHeader(request *http.Request) {
-	request.Header.Set("Client-ID", a.settings.IgdbClient)
-	request.Header.Set("Authorization", fmt.Sprintf("Bearer %s", a.settings.IgdbAuth))
+	request.Header.Set("Client-ID", a.settings.IgdbSettings.IgdbClient)
+	request.Header.Set("Authorization", fmt.Sprintf("Bearer %s", a.settings.IgdbSettings.IgdbAuth))
 }
 
 func NewAPI(settings *jsonModels.ProxySettings, settingsManager *jsonUtils.JsonManager) (*APIManager, error) {
@@ -43,7 +43,7 @@ func NewAPI(settings *jsonModels.ProxySettings, settingsManager *jsonUtils.JsonM
 	}
 
 	// Generate new auth token if needed
-	if time.Now().After(settings.ExpiresAt) || settings.IgdbAuth == "" {
+	if time.Now().After(settings.IgdbSettings.ExpiresAt) {
 		fmt.Println("Generating new auth token because the old one has expired")
 		_, err := apiManager.GetAndSetNewAuthToken()
 		if err != nil {
@@ -106,7 +106,7 @@ func (a *APIManager) GetGameData(id int) (ApiGame, error) {
 	return firstGameData, nil
 }
 
-func (a *APIManager) GetGames(query string) ([]ApiGame, error)  {
+func (a *APIManager) GetGames(query string) ([]ApiGame, error) {
 	header := fmt.Sprintf(`fields id, name, summary, cover.*, artworks.*, screenshots.*; search "%s";`, query)
 
 	request, err := http.NewRequest("POST", "https://api.igdb.com/v4/games/", bytes.NewBuffer([]byte(header)))
