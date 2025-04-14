@@ -11,8 +11,7 @@ import (
 )
 
 type Image struct {
-	DBID uint `json:"-" gorm:"primaryKey"`
-	ImageID string `json:"image_id"`
+	ImageID string `json:"image_id" gorm:"primaryKey"`
 }
 
 type Genre struct {
@@ -25,7 +24,7 @@ type Metadata struct {
 	Name        string  `json:"name"`
 	Description string  `json:"summary"`
 	// Coverid is foreign key for local db
-	CoverID     uint    `json:"-"`
+	CoverID     string    `json:"-"`
 	Cover       Image   `json:"cover" gorm:"foreignKey:CoverID"`
 	Artworks    []Image `json:"artworks" gorm:"many2many:metadata_artworks"`
 	Screenshots []Image `json:"screenshots" gorm:"many2many:metadata_screenshots"`
