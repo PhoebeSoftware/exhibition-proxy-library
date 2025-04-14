@@ -14,7 +14,7 @@ type Image struct {
 	ImageID string `json:"image_id"`
 }
 
-type IGDBMetadata struct {
+type Metadata struct {
 	Id                int      `json:"id"`
 	Name              string   `json:"name"`
 	Description       string   `json:"summary"`
@@ -60,30 +60,30 @@ func NewAPI(settings *jsonModels.ProxySettings, settingsManager *jsonUtils.JsonM
 	return apiManager, nil
 }
 
-func (a *APIManager) GetGameData(id int) (IGDBMetadata, error) {
+func (a *APIManager) GetGameData(id int) (Metadata, error) {
 	header := fmt.Sprintf(`fields id, name, summary, cover.*, artworks.*, screenshots.*; where id = %d;`, id)
 
 	request, err := http.NewRequest("POST", "https://api.igdb.com/v4/games/", bytes.NewBuffer([]byte(header)))
 	if err != nil {
-		return IGDBMetadata{}, err
+		return Metadata{}, err
 	}
 
 	a.SetupHeader(request)
 
 	response, err := a.client.Do(request)
 	if err != nil {
-		return IGDBMetadata{}, err
+		return Metadata{}, err
 	}
 	defer response.Body.Close()
 
-	var gameDataList []IGDBMetadata
+	var gameDataList []Metadata
 	jsonErr := json.NewDecoder(response.Body).Decode(&gameDataList)
 	if jsonErr != nil {
-		return IGDBMetadata{}, err
+		return Metadata{}, err
 	}
 
 	if len(gameDataList) == 0 {
-		return IGDBMetadata{}, fmt.Errorf("no games found with id %d", id)
+		return Metadata{}, fmt.Errorf("no games found with id %d", id)
 	}
 
 	firstGameData := gameDataList[0]
@@ -106,26 +106,26 @@ func (a *APIManager) GetGameData(id int) (IGDBMetadata, error) {
 	return firstGameData, nil
 }
 
-func (a *APIManager) GetGames(query string) ([]IGDBMetadata, error) {
+func (a *APIManager) GetGames(query string) ([]Metadata, error) {
 	header := fmt.Sprintf(`fields id, name, summary, cover.*, artworks.*, screenshots.*; search "%s";`, query)
 
 	request, err := http.NewRequest("POST", "https://api.igdb.com/v4/games/", bytes.NewBuffer([]byte(header)))
 	if err != nil {
-		return []IGDBMetadata{}, err
+		return []Metadata{}, err
 	}
 
 	a.SetupHeader(request)
 
 	response, err := a.client.Do(request)
 	if err != nil {
-		return []IGDBMetadata{}, err
+		return []Metadata{}, err
 	}
 	defer response.Body.Close()
 
-	var games []IGDBMetadata
+	var games []Metadata
 	err = json.NewDecoder(response.Body).Decode(&games)
 	if err != nil {
-		return []IGDBMetadata{}, err
+		return []Metadata{}, err
 	}
 
 	for i, game := range games {
