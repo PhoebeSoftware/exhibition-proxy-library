@@ -19,11 +19,11 @@ type Metadata struct {
 	Name              string   `json:"name"`
 	Description       string   `json:"summary"`
 	Cover             Image    `json:"cover"`
-	CoverURL          string   `json:"cover_url"`
+	CoverURL          string   `json:"-"`
 	Artworks          []Image  `json:"artworks"`
-	ArtworkUrlList    []string `json:"artwork_url_list"`
+	ArtworkUrlList    []string `json:"-"`
 	Screenshots       []Image  `json:"screenshots"`
-	ScreenshotUrlList []string `json:"screenshot_url_list"`
+	ScreenshotUrlList []string `json:"-"`
 }
 
 type APIManager struct {
