@@ -19,11 +19,8 @@ type Metadata struct {
 	Name              string   `json:"name"`
 	Description       string   `json:"summary"`
 	Cover             Image    `json:"cover"`
-	CoverURL          string   `json:"-"`
 	Artworks          []Image  `json:"artworks"`
-	ArtworkUrlList    []string `json:"-"`
 	Screenshots       []Image  `json:"screenshots"`
-	ScreenshotUrlList []string `json:"-"`
 }
 
 type APIManager struct {
@@ -87,22 +84,6 @@ func (a *APIManager) GetGameData(id int) (Metadata, error) {
 	}
 
 	firstGameData := gameDataList[0]
-	imageID := firstGameData.Cover.ImageID
-	imageURL := fmt.Sprintf("https://images.igdb.com/igdb/image/upload/t_cover_big/%s.jpg", imageID)
-	firstGameData.CoverURL = imageURL
-
-	for _, image := range firstGameData.Artworks {
-		imageID := image.ImageID
-		imageURL := fmt.Sprintf("https://images.igdb.com/igdb/image/upload/t_1080p/%s.jpg", imageID)
-		firstGameData.ArtworkUrlList = append(firstGameData.ArtworkUrlList, imageURL)
-	}
-
-	for _, image := range firstGameData.Screenshots {
-		imageID := image.ImageID
-		imageURL := fmt.Sprintf("https://images.igdb.com/igdb/image/upload/t_1080p/%s.jpg", imageID)
-		firstGameData.ScreenshotUrlList = append(firstGameData.ScreenshotUrlList, imageURL)
-	}
-
 	return firstGameData, nil
 }
 
