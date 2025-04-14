@@ -16,7 +16,7 @@ type Proxy struct {
 	Port         int
 }
 
-func (p *Proxy) StartServer() {
+func (p *Proxy) StartBaseServer() {
 	portInString := strconv.Itoa(p.Port)
 	router := gin.Default()
 
