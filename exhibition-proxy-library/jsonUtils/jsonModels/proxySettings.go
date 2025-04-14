@@ -6,6 +6,7 @@ import (
 
 type ProxySettings struct {
 	IgdbSettings IgdbSettings
+	Port int
 }
 
 type IgdbSettings struct {

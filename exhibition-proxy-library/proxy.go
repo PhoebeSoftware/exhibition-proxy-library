@@ -13,19 +13,29 @@ import (
 
 type Proxy struct {
 	SettingsPath string
-	Port         int
+	Settings *jsonModels.ProxySettings
+	SettingsManger *jsonUtils.JsonManager
 }
 
-func (p *Proxy) StartBaseServer() {
-	portInString := strconv.Itoa(p.Port)
-	router := gin.Default()
-
+func (p *Proxy) Init() {
 	settings := &jsonModels.ProxySettings{}
 	settingsManager, err := jsonUtils.NewJsonManager(filepath.Join(p.SettingsPath), settings)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
+	p.Settings = settings
+	p.SettingsManger = settingsManager
+}
+
+func (p *Proxy) StartBaseServer() {
+	gin.SetMode(gin.ReleaseMode)
+	settings := p.Settings
+	settingsManager := p.SettingsManger
+
+
+	portInString := strconv.Itoa(settings.Port)
+	router := gin.Default()
 
 	apiManager, err := igdb.NewAPI(settings, settingsManager)
 	if err != nil {
