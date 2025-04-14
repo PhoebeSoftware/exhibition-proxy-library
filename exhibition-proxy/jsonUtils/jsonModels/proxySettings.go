@@ -13,9 +13,6 @@ type IgdbSettings struct {
 	IgdbSecret string `json:"igdb_secret"`
 	IgdbAuth   string `json:"igdb_auth"`
 
-	// In seconds
-	ExpiresIn int `json:"expires_in"`
-
 	// Basic go time format
 	ExpiresAt time.Time `json:"expires_at"`
 }
@@ -28,6 +25,5 @@ func (s *ProxySettings) DefaultValues() {
 	s.IgdbSettings.IgdbClient = "fill-in-pls"
 	s.IgdbSettings.IgdbSecret = "fill-in-pls"
 	s.IgdbSettings.IgdbAuth = "auto-generated"
-	s.IgdbSettings.ExpiresIn = 0
 	s.IgdbSettings.ExpiresAt = time.Time{}
 }
