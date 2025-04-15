@@ -96,7 +96,7 @@ func (a *APIManager) GetGameData(id int) (*Metadata, error) {
 }
 
 func (a *APIManager) GetGames(query string) ([]Metadata, error) {
-	header := fmt.Sprintf(`fields id, name, summary, cover.*, artworks.*, screenshots.*; search "%s";`, query)
+	header := fmt.Sprintf(`fields id, name, summary, cover.*, artworks.*, screenshots.*, genres.*; search "%s";`, query)
 
 	request, err := http.NewRequest("POST", "https://api.igdb.com/v4/games/", bytes.NewBuffer([]byte(header)))
 	if err != nil {
