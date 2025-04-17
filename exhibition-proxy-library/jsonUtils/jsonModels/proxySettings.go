@@ -27,4 +27,5 @@ func (s *ProxySettings) DefaultValues() {
 	s.IgdbSettings.IgdbSecret = "fill-in-pls"
 	s.IgdbSettings.IgdbAuth = "auto-generated"
 	s.IgdbSettings.ExpiresAt = time.Time{}
+	s.Port = 12345
 }

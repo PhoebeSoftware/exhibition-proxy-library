@@ -33,7 +33,6 @@ func (p *Proxy) StartBaseServer() {
 	settings := p.Settings
 	settingsManager := p.SettingsManger
 
-
 	portInString := strconv.Itoa(settings.Port)
 	router := gin.Default()
 

@@ -13,7 +13,7 @@ func (a *APIManager) GetAndSetNewAuthToken() (string, error) {
 	client := a.client
 	params := url.Values{}
 	params.Add("client_id", a.settings.IgdbSettings.IgdbClient)
-	params.Add("client_secret", a.settings.IgdbSettings.IgdbClient)
+	params.Add("client_secret", a.settings.IgdbSettings.IgdbSecret)
 	params.Add("grant_type", "client_credentials")
 	uri := "https://id.twitch.tv/oauth2/token" + "?" + params.Encode()
 	req, err := http.NewRequest(http.MethodPost, uri, nil)
@@ -47,7 +47,11 @@ func (a *APIManager) GetAndSetNewAuthToken() (string, error) {
 	}
 
 	a.settings.IgdbSettings.IgdbAuth = authResponse.AccessToken
-	expiresAt := time.Now().Add(time.Duration(authResponse.ExpiresIn) * time.Second)
+	now := time.Now()
+	expiresAt := now.Add(time.Duration(authResponse.ExpiresIn) * time.Second)
+	if expiresAt == now {
+		return authResponse.AccessToken, nil
+	}
 	a.settings.IgdbSettings.ExpiresAt = expiresAt
 	return authResponse.AccessToken, nil
 }
