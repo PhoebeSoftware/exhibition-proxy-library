@@ -137,7 +137,7 @@ Example JSON:
 
 Get game data by name
 ```
-GET /game/name/{name}
+GET /game/?name={name}
 ```
 Example JSON:
 ```
