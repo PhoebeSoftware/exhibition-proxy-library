@@ -7,6 +7,7 @@ import (
 type ProxySettings struct {
 	IgdbSettings IgdbSettings `json:"igdb_settings"`
 	Port int `json:"port"`
+	DebugMode bool `json:"debug_mode"`
 }
 
 type IgdbSettings struct {
@@ -28,4 +29,5 @@ func (s *ProxySettings) DefaultValues() {
 	s.IgdbSettings.IgdbAuth = "auto-generated"
 	s.IgdbSettings.ExpiresAt = time.Time{}
 	s.Port = 12345
+	s.DebugMode = false
 }
