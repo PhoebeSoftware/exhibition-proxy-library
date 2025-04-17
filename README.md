@@ -8,7 +8,7 @@ Base URL = localhost:3030
 ## Usage
 Get game data by id
 ```
-GET /game/id/{igdbid}
+GET /game/{igdbid}
 ```
 Example JSON: 
 ```
