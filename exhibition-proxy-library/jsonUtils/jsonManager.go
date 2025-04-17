@@ -20,6 +20,7 @@ func NewJsonManager(path string, config Configurable) (*JsonManager, error) {
 
 	if err := manager.Load(); err != nil {
 		manager.Config.DefaultValues()
+		config.DefaultValues()
 		if err := manager.Save(); err != nil {
 			return nil, err
 		}

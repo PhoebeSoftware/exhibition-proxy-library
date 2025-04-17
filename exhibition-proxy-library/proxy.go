@@ -20,6 +20,7 @@ type Proxy struct {
 func (p *Proxy) Init() {
 	settings := &jsonModels.ProxySettings{}
 	settingsManager, err := jsonUtils.NewJsonManager(filepath.Join(p.SettingsPath), settings)
+
 	if err != nil {
 		fmt.Println(err)
 		return
