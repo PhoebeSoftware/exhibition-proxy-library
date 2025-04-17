@@ -44,7 +44,12 @@ func (p *Proxy) Init() {
 
 	if settings.IgdbSettings.IgdbClient == "fill-in-pls" ||
 		settings.IgdbSettings.IgdbSecret == "fill-in-pls" {
-		fmt.Println("Config file path: " + settingsPath)
+		absPath, err := filepath.Abs(settingsPath)
+		if err != nil {
+			fmt.Println("Config file path: " + settingsPath)
+		} else {
+			fmt.Println("Config file path:", absPath)
+		}
 		panic("Failed to launch: Please fill in the IGDB client and secret")
 	}
 }
