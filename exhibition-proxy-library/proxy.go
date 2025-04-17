@@ -20,11 +20,9 @@ type Proxy struct {
 }
 
 func (p *Proxy) Init() {
-	var dataPath string
-	if err := godotenv.Load(); err != nil {
+	dataPath := os.Getenv("DATA_PATH")
+	if dataPath == "" {
 		dataPath = filepath.Join(".", "data")
-	} else {
-		dataPath = os.Getenv("DATA_PATH")
 	}
 	if err := os.MkdirAll(dataPath, 0777); err != nil {
 		fmt.Println(err)
