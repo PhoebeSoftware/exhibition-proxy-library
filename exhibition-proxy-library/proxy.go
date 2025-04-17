@@ -22,7 +22,7 @@ type Proxy struct {
 func (p *Proxy) Init() {
 	dataPath := os.Getenv("DATA_PATH")
 	if dataPath == "" {
-		dataPath = filepath.Join(".", "data")
+		dataPath = filepath.Join("..", "data")
 	}
 	if err := os.MkdirAll(dataPath, 0777); err != nil {
 		fmt.Println(err)
