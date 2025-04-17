@@ -47,7 +47,7 @@ func (manager *JsonManager) Load() error {
 func (manager *JsonManager) Save() error {
 	file, err := os.Create(manager.Path)
 	if err != nil {
-		return fmt.Errorf("could not save jsonUtils: %w", err)
+		return fmt.Errorf("could not save jsonManager: %w", err)
 	}
 	defer file.Close()
 
