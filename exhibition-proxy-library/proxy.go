@@ -7,30 +7,54 @@ import (
 	"github.com/PhoebeSoftware/exhibition-proxy-library/exhibition-proxy-library/jsonUtils"
 	"github.com/PhoebeSoftware/exhibition-proxy-library/exhibition-proxy-library/jsonUtils/jsonModels"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
+	"os"
 	"path/filepath"
 	"strconv"
 )
 
 type Proxy struct {
-	SettingsPath string
-	Settings *jsonModels.ProxySettings
+	Settings       *jsonModels.ProxySettings
 	SettingsManger *jsonUtils.JsonManager
+	DataPath string
 }
 
 func (p *Proxy) Init() {
-	settings := &jsonModels.ProxySettings{}
-	settingsManager, err := jsonUtils.NewJsonManager(filepath.Join(p.SettingsPath), settings)
+	var dataPath string
+	if err := godotenv.Load(); err != nil {
+		dataPath = filepath.Join(".", "data")
+	} else {
+		dataPath = os.Getenv("DATA_PATH")
+	}
+	if err := os.MkdirAll(dataPath, 0777); err != nil {
+		fmt.Println(err)
+		fmt.Println("proxy.Init(): Could not create path: " + dataPath)
+		return
+	}
+	p.DataPath = dataPath
+	settingsPath := filepath.Join(dataPath, "proxy-settings.json")
 
+	settings := &jsonModels.ProxySettings{}
+	settingsManager, err := jsonUtils.NewJsonManager(settingsPath, settings)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 	p.Settings = settings
 	p.SettingsManger = settingsManager
+
+
+	if p.Settings.IgdbSettings.IgdbClient == "fill-in-pls" ||
+		p.Settings.IgdbSettings.IgdbSecret == "fill-in-pls" {
+		fmt.Println("Config file path: " + settingsPath)
+		panic("Failed to launch: Please fill in the IGDB client and secret")
+	}
 }
 
 func (p *Proxy) StartBaseServer() {
-	gin.SetMode(gin.ReleaseMode)
+	if !p.Settings.DebugMode {
+		gin.SetMode(gin.ReleaseMode)
+	}
 	settings := p.Settings
 	settingsManager := p.SettingsManger
 
