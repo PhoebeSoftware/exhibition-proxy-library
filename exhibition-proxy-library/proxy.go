@@ -39,9 +39,6 @@ func (p *Proxy) Init() {
 	}
 	p.Settings = settings
 	p.SettingsManger = settingsManager
-
-	fmt.Println(p.Settings)
-
 	if settings.IgdbSettings.IgdbClient == "fill-in-pls" ||
 		settings.IgdbSettings.IgdbSecret == "fill-in-pls" {
 		absPath, err := filepath.Abs(settingsPath)
