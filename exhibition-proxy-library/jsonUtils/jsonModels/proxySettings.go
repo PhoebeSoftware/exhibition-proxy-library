@@ -5,8 +5,8 @@ import (
 )
 
 type ProxySettings struct {
-	IgdbSettings IgdbSettings
-	Port int
+	IgdbSettings IgdbSettings `json:"igdb_settings"`
+	Port int `json:"port"`
 }
 
 type IgdbSettings struct {
