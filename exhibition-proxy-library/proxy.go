@@ -7,7 +7,6 @@ import (
 	"github.com/PhoebeSoftware/exhibition-proxy-library/exhibition-proxy-library/jsonUtils"
 	"github.com/PhoebeSoftware/exhibition-proxy-library/exhibition-proxy-library/jsonUtils/jsonModels"
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -16,7 +15,7 @@ import (
 type Proxy struct {
 	Settings       *jsonModels.ProxySettings
 	SettingsManger *jsonUtils.JsonManager
-	DataPath string
+	DataPath       string
 }
 
 func (p *Proxy) Init() {
@@ -40,7 +39,6 @@ func (p *Proxy) Init() {
 	}
 	p.Settings = settings
 	p.SettingsManger = settingsManager
-
 
 	if p.Settings.IgdbSettings.IgdbClient == "fill-in-pls" ||
 		p.Settings.IgdbSettings.IgdbSecret == "fill-in-pls" {
