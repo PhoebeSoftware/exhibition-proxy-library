@@ -20,12 +20,12 @@ type Genre struct {
 }
 
 type Metadata struct {
-	Id          int     `json:"id"`
-	Name        string  `json:"name"`
-	Description string  `json:"summary"`
+	Id          int    `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"summary"`
 	// Coverid is foreign key for local db
-	CoverID     string    `json:"-"`
-	Cover       Image   `json:"cover" gorm:"foreignKey:CoverID"`
+	CoverSQLID string `json:"-"`
+	Cover      Image  `json:"cover" gorm:"foreignKey:CoverSQLID"`
 	Artworks    []Image `json:"artworks" gorm:"many2many:metadata_artworks"`
 	Screenshots []Image `json:"screenshots" gorm:"many2many:metadata_screenshots"`
 	Genres      []Genre `json:"genres" gorm:"many2many:metadata_genres"`
